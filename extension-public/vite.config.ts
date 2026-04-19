@@ -5,7 +5,7 @@ import { resolve } from 'path'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // CRITICAL: base must be './' for Chrome Extensions loaded from local files
+  // base must be './' for both Chrome Extension and root GitHub Pages with relative assets
   base: './',
   build: {
     outDir: 'dist',

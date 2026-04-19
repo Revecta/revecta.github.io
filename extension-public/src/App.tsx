@@ -31,23 +31,28 @@ function App() {
   const [activeTabUrl, setActiveTabUrl] = useState<string>('');
   
   // Detect if we are running in an extension or as a website
-  const isExtension = typeof window !== 'undefined' && (!!window.chrome?.runtime?.id || !!(window as any).browser?.runtime?.id);
+  const isExtension = typeof window !== 'undefined' && 
+    (!!(window.chrome && window.chrome.runtime && window.chrome.runtime.id) || 
+     !!((window as any).browser && (window as any).browser.runtime && (window as any).browser.runtime.id));
 
   useEffect(() => {
     const checkTab = async () => {
       try {
-        // Only try to query tabs if we are in an extension context
+        // Only try to query tabs if we are in an extension context and browser/chrome is available
         if (isExtension) {
-          const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-          if (tabs[0]?.url) {
-            setActiveTabUrl(tabs[0].url);
-            fetchCodes(tabs[0].url);
-            return;
+          const extensionRoot = (window as any).browser || (window as any).chrome;
+          if (extensionRoot?.tabs?.query) {
+            const tabs = await extensionRoot.tabs.query({ active: true, currentWindow: true });
+            if (tabs[0]?.url) {
+              setActiveTabUrl(tabs[0].url);
+              fetchCodes(tabs[0].url);
+              return;
+            }
           }
         }
-        setLoading(false);
       } catch (error) {
         console.error('Error querying tabs:', error);
+      } finally {
         setLoading(false);
       }
     };

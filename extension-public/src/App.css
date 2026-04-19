@@ -28,7 +28,6 @@
 body {
   background: var(--bg);
   color: var(--txt);
-  width: 380px;
   min-height: 200px;
   overflow-x: hidden;
 }
@@ -40,10 +39,21 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 200px;
-  max-height: 580px;
+  max-height: 100vh;
   padding: 18px 18px 14px;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 380px; /* Default for extension */
+}
+
+.is-landing-page {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: 100vh;
+  max-height: none;
+  padding: 40px 24px;
 }
 
 /* Ambient gradient blobs */
