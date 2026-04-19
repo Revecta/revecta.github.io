@@ -29,17 +29,23 @@ function App() {
   const [codes, setCodes] = useState<Code[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [activeTabUrl, setActiveTabUrl] = useState<string>('');
+  
+  // Detect if we are running in an extension or as a website
+  const isExtension = typeof window !== 'undefined' && (!!window.chrome?.runtime?.id || !!(window as any).browser?.runtime?.id);
 
   useEffect(() => {
     const checkTab = async () => {
       try {
-        const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-        if (tabs[0]?.url) {
-          setActiveTabUrl(tabs[0].url);
-          fetchCodes(tabs[0].url);
-        } else {
-          setLoading(false);
+        // Only try to query tabs if we are in an extension context
+        if (isExtension) {
+          const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+          if (tabs[0]?.url) {
+            setActiveTabUrl(tabs[0].url);
+            fetchCodes(tabs[0].url);
+            return;
+          }
         }
+        setLoading(false);
       } catch (error) {
         console.error('Error querying tabs:', error);
         setLoading(false);
@@ -47,7 +53,7 @@ function App() {
     };
 
     checkTab();
-  }, []);
+  }, [isExtension]);
 
   const fetchCodes = async (url: string) => {
     try {
@@ -79,7 +85,7 @@ function App() {
     window.open(`https://codiceamico.app/dashboard${urlParam}`, '_blank');
   };
 
-  if (loading) {
+  if (loading && isExtension) {
     return (
       <div className="popup-container loading-state">
         <div className="loader-ring" />
@@ -89,17 +95,15 @@ function App() {
   }
 
   return (
-    <div className="popup-container">
+    <div className={`popup-container ${!isExtension ? 'is-landing-page' : ''}`}>
 
       {/* ── HEADER ── */}
       <header className="header">
-        {/* Logo — uses the actual extension PNG icon */}
         <div className="logo">
           <img src="./icons/icon48.png" alt="CodiceAmico" className="logo-img" />
           <span className="logo-text">Codice<span className="logo-accent">Amico</span></span>
         </div>
 
-        {/* Action buttons */}
         <div className="header-actions">
           <button className="add-code-btn" onClick={goToAddCode} title="Aggiungi il tuo codice">
             <Plus size={13} />
@@ -114,9 +118,39 @@ function App() {
 
       {/* ── MAIN ── */}
       <main className="main">
+        {!isExtension && (
+          <div className="landing-hero">
+            <h1>L'estensione per risparmiare online</h1>
+            <p className="hero-subtitle">
+              Trova automaticamente i migliori codici sconto e bonus referral mentre navighi sui tuoi siti preferiti.
+            </p>
+            
+            <div className="download-section">
+              <h3>Installa l'estensione gratuita:</h3>
+              <div className="download-buttons">
+                <a href="#" className="download-btn chrome">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_empty.svg" alt="" width="18" />
+                  Chrome Web Store
+                </a>
+                <a href="https://addons.mozilla.org/it/firefox/addon/codiceamico-app/" className="download-btn firefox">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="" width="18" />
+                  Firefox Add-ons
+                </a>
+              </div>
+            </div>
+
+            <div className="main-site-link">
+              <span>Oppure visita il sito principale:</span>
+              <a href="https://codiceamico.app" className="hero-link">
+                www.codiceamico.app
+                <ExternalLink size={14} />
+              </a>
+            </div>
+          </div>
+        )}
+
         {brand ? (
           <>
-            {/* Brand card */}
             <div className="brand-card">
               <div className="brand-avatar" style={{ '--brand-color': brand.color || '#3B82F6' } as React.CSSProperties}>
                 {brand.logo_url ? (
@@ -135,7 +169,6 @@ function App() {
               </div>
             </div>
 
-            {/* Codes list */}
             <div className="codes-list">
               {codes.map((code, idx) => (
                 <div key={code.id} className="code-card" style={{ '--delay': `${idx * 60}ms` } as React.CSSProperties}>
@@ -172,24 +205,24 @@ function App() {
                 </div>
               ))}
             </div>
-
           </>
         ) : (
-          <div className="empty-state">
-            <div className="empty-icon-wrap">
-              <Globe size={28} />
+          isExtension && (
+            <div className="empty-state">
+              <div className="empty-icon-wrap">
+                <Globe size={28} />
+              </div>
+              <h3 className="empty-title">Nessun codice trovato</h3>
+              <p className="empty-desc">Non abbiamo ancora promozioni per questo sito.<br />Accedi per essere il primo a condividerne uno!</p>
+              <button className="cta-btn" onClick={goToLogin}>
+                <LogIn size={15} />
+                Accedi e aggiungi
+              </button>
             </div>
-            <h3 className="empty-title">Nessun codice trovato</h3>
-            <p className="empty-desc">Non abbiamo ancora promozioni per questo sito.<br />Accedi per essere il primo a condividerne uno!</p>
-            <button className="cta-btn" onClick={goToLogin}>
-              <LogIn size={15} />
-              Accedi e aggiungi
-            </button>
-          </div>
+          )
         )}
       </main>
 
-      {/* ── FOOTER ── */}
       <footer className="footer">
         <a href="https://codiceamico.app" target="_blank" rel="noreferrer" className="footer-link">
           codiceamico.app <ExternalLink size={10} />

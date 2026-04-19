@@ -552,3 +552,146 @@ body {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+/* ──────────────────────────────────────────
+   LANDING PAGE STYLES (WEB CONTEXT)
+────────────────────────────────────────── */
+.is-landing-page {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: 100vh;
+  max-height: none;
+  padding: 40px 24px;
+}
+
+/* Allow body to expand when on landing page */
+:has(.is-landing-page) body {
+  width: 100%;
+}
+
+.landing-hero {
+  text-align: center;
+  padding: 40px 0;
+  animation: fadeUp 0.6s ease both;
+}
+
+.landing-hero h1 {
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  background: linear-gradient(to bottom, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  color: var(--txt-muted);
+  max-width: 540px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+
+.download-section {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.download-section h3 {
+  font-size: 14px;
+  color: var(--txt-muted);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.download-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.download-btn.firefox {
+  background: #333;
+  color: #fff;
+}
+
+.main-site-link {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.main-site-link span {
+  font-size: 13px;
+  color: var(--txt-dim);
+}
+
+.hero-link {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.2s;
+}
+
+.hero-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* Adjustments for landing page components */
+.is-landing-page .brand-card {
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.is-landing-page .codes-list {
+  max-width: 500px;
+  margin: 0 auto;
+  max-height: none;
+}
+
+@media (max-width: 600px) {
+  .landing-hero h1 {
+    font-size: 28px;
+  }
+  .hero-subtitle {
+    font-size: 16px;
+  }
+  .download-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
