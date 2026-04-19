@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import browser from 'webextension-polyfill'
 import { ExternalLink, Copy, Check, LogIn, Globe, Sparkles, ShieldCheck, Plus } from 'lucide-react'
 import './App.css'
 
