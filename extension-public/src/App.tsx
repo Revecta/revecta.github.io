@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
-import { ExternalLink, Copy, Check, LogIn, Globe, Sparkles, ShieldCheck, Plus } from 'lucide-react'
+import { 
+  Copy, Check, LogIn, Globe, Sparkles, 
+  ShieldCheck, Plus, Github, Star, Terminal, Settings,
+  ArrowRight, Eye
+} from 'lucide-react'
 import './App.css'
 
 interface Brand {
@@ -28,6 +32,7 @@ function App() {
   const [codes, setCodes] = useState<Code[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [activeTabUrl, setActiveTabUrl] = useState<string>('');
+  const [showSafariGuide, setShowSafariGuide] = useState(false);
   
   // Detect if we are running in an extension or as a website
   const isExtension = typeof window !== 'undefined' && 
@@ -103,9 +108,12 @@ function App() {
 
       {/* ── HEADER ── */}
       <header className="header">
-        <div className="logo">
+        <div className="logo" onClick={() => window.open('https://codiceamico.app', '_blank')}>
           <img src="./icons/icon48.png" alt="CodiceAmico" className="logo-img" />
-          <span className="logo-text">Codice<span className="logo-accent">Amico</span></span>
+          <div className="logo-meta">
+            <span className="logo-text">Codice<span className="logo-accent">Amico</span></span>
+            {!isExtension && <span className="version-pill">v1.0.0</span>}
+          </div>
         </div>
 
         <div className="header-actions">
@@ -123,31 +131,95 @@ function App() {
       {/* ── MAIN ── */}
       <main className="main">
         {!isExtension && (
-          <div className="landing-hero">
-            <h1>L'estensione per risparmiare online</h1>
-            <p className="hero-subtitle">
-              Trova automaticamente i migliori codici sconto e bonus referral mentre navighi sui tuoi siti preferiti.
-            </p>
-            
-            <div className="download-section">
-              <h3>Installa l'estensione gratuita:</h3>
-              <div className="download-buttons">
-                <a href="#" className="download-btn chrome">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_empty.svg" alt="" width="18" />
-                  Chrome Web Store
-                </a>
-                <a href="https://addons.mozilla.org/it/firefox/addon/codiceamico-app/" className="download-btn firefox">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="" width="18" />
-                  Firefox Add-ons
+          <div className="landing-content">
+            <section className="landing-hero">
+              <div className="badge">L'estensione ufficiale</div>
+              <h1>Risparmia ovunque con un click</h1>
+              <p className="hero-subtitle">
+                Trova automaticamente i migliori codici sconto e bonus referral mentre navighi. La community di Codice Amico, ora sempre con te.
+              </p>
+              
+              <div className="download-section">
+                <h3>Scegli il tuo browser</h3>
+                <div className="download-buttons">
+                  <a href="#" className="download-btn chrome">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_empty.svg" alt="" width="20" />
+                    <div className="btn-txt">
+                      <span>Installa su</span>
+                      <strong>Chrome</strong>
+                    </div>
+                  </a>
+                  <a href="https://addons.mozilla.org/it/firefox/addon/codiceamico-app/" className="download-btn firefox">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="" width="20" />
+                    <div className="btn-txt">
+                      <span>Installa su</span>
+                      <strong>Firefox</strong>
+                    </div>
+                  </a>
+                  <button onClick={() => setShowSafariGuide(!showSafariGuide)} className={`download-btn safari ${showSafariGuide ? 'active' : ''}`}>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Safari_browser_logo.svg" alt="" width="20" />
+                    <div className="btn-txt">
+                      <span>Guida per</span>
+                      <strong>Safari</strong>
+                    </div>
+                  </button>
+                </div>
+
+                {showSafariGuide && (
+                  <div className="safari-guide glass-card fade-in">
+                    <h4><Settings size={16} /> Come installare su Safari (macOS)</h4>
+                    <ol>
+                      <li>
+                        <strong>Scarica:</strong> <a href="https://github.com/Revecta/revecta.github.io/archive/refs/heads/main.zip">Scarica il codice sorgente (.zip)</a> della repository.
+                      </li>
+                      <li>
+                        <strong>Developer Mode:</strong> Apri Safari e vai in <em>Impostazioni &gt; Avanzate</em>, abilita "Mostra menu Sviluppo".
+                      </li>
+                      <li>
+                        <strong>Carica:</strong> Dal menu <em>Sviluppo</em>, seleziona "Consenti estensioni non firmate", quindi trascina la cartella `dist` nel pannello Estensioni.
+                      </li>
+                    </ol>
+                    <p className="note">Stiamo lavorando per portare l'estensione ufficialmente sul Mac App Store!</p>
+                  </div>
+                )}
+              </div>
+            </section>
+
+            <section className="open-source-section glass-card">
+              <div className="os-header">
+                <div className="os-title">
+                  <Github size={24} />
+                  <div>
+                    <h3>100% Open Source</h3>
+                    <p>Trasparente, sicuro e gratuito per sempre.</p>
+                  </div>
+                </div>
+                <a href="https://github.com/Revecta/revecta.github.io" target="_blank" className="star-btn">
+                  <Star size={16} />
+                  Star su GitHub
                 </a>
               </div>
-            </div>
+              <div className="os-grid">
+                <div className="os-item">
+                  <Eye size={18} />
+                  <span>Codice verificabile</span>
+                </div>
+                <div className="os-item">
+                  <Sparkles size={18} />
+                  <span>Nessun tracciamento</span>
+                </div>
+                <div className="os-item">
+                  <Terminal size={18} />
+                  <span>Contribuibile</span>
+                </div>
+              </div>
+            </section>
 
             <div className="main-site-link">
-              <span>Oppure visita il sito principale:</span>
+              <span>Oppure torna al portale ufficiale:</span>
               <a href="https://codiceamico.app" className="hero-link">
                 www.codiceamico.app
-                <ExternalLink size={14} />
+                <ArrowRight size={18} />
               </a>
             </div>
           </div>
@@ -155,7 +227,7 @@ function App() {
 
         {brand ? (
           <>
-            <div className="brand-card">
+            <div className="brand-card glass-card">
               <div className="brand-avatar" style={{ '--brand-color': brand.color || '#3B82F6' } as React.CSSProperties}>
                 {brand.logo_url ? (
                   <img src={brand.logo_url} alt={brand.name} className="brand-img" />
@@ -175,7 +247,7 @@ function App() {
 
             <div className="codes-list">
               {codes.map((code, idx) => (
-                <div key={code.id} className="code-card" style={{ '--delay': `${idx * 60}ms` } as React.CSSProperties}>
+                <div key={code.id} className="code-card glass-card" style={{ '--delay': `${idx * 60}ms` } as React.CSSProperties}>
                   <div className="code-card-top">
                     <div className="code-meta">
                       <span className="user-pill">@{getFirstName(code.user)}</span>
@@ -229,7 +301,7 @@ function App() {
 
       <footer className="footer">
         <a href="https://codiceamico.app" target="_blank" rel="noreferrer" className="footer-link">
-          codiceamico.app <ExternalLink size={10} />
+          © 2026 CodiceAmico • Fatto con ❤️ dalla community
         </a>
       </footer>
     </div>
