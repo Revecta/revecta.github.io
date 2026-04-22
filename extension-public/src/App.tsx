@@ -149,7 +149,7 @@ function App() {
                       <strong>Chrome</strong>
                     </div>
                   </a>
-                  <a href="https://addons.mozilla.org/it/firefox/addon/codiceamico-app/" className="download-btn firefox">
+                  <a href="https://addons.mozilla.org/en-US/firefox/addon/codiceamico-app-trova-bonus/" className="download-btn firefox">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="" width="20" />
                     <div className="btn-txt">
                       <span>Installa su</span>

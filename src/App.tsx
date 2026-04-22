@@ -136,7 +136,7 @@ function App() {
                   <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_empty.svg" alt="" width="18" />
                   Chrome Web Store
                 </a>
-                <a href="https://addons.mozilla.org/it/firefox/addon/codiceamico-app/" className="download-btn firefox">
+                <a href="https://addons.mozilla.org/en-US/firefox/addon/codiceamico-app-trova-bonus/" className="download-btn firefox">
                   <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Firefox_logo%2C_2019.svg" alt="" width="18" />
                   Firefox Add-ons
                 </a>
