@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { 
   Copy, Check, LogIn, Globe, Sparkles, 
-  ShieldCheck, Plus, Github, Star, Terminal, Settings,
+  ShieldCheck, Plus, Code, Star, Terminal, Settings,
   ArrowRight, Eye
 } from 'lucide-react'
 import './App.css'
@@ -188,7 +188,7 @@ function App() {
             <section className="open-source-section glass-card">
               <div className="os-header">
                 <div className="os-title">
-                  <Github size={24} />
+                  <Code size={24} />
                   <div>
                     <h3>100% Open Source</h3>
                     <p>Trasparente, sicuro e gratuito per sempre.</p>
