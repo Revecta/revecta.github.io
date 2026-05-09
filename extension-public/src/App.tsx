@@ -42,8 +42,11 @@ function App() {
   useEffect(() => {
     const checkTab = async () => {
       try {
-        // Only try to query tabs if we are in an extension context and browser/chrome is available
         if (isExtension) {
+          // Add class for CSS targeting
+          document.documentElement.classList.add('is-extension');
+          document.body.classList.add('is-extension');
+
           const extensionRoot = (window as any).browser || (window as any).chrome;
           if (extensionRoot?.tabs?.query) {
             const tabs = await extensionRoot.tabs.query({ active: true, currentWindow: true });
@@ -53,6 +56,9 @@ function App() {
               return;
             }
           }
+        } else {
+          document.documentElement.classList.remove('is-extension');
+          document.body.classList.remove('is-extension');
         }
       } catch (error) {
         console.error('Error querying tabs:', error);
