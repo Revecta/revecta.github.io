@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "codiceamico.app - trova bonus e sconti",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Trova automaticamente codici referral e bonus per i siti che visiti",
   "permissions": ["activeTab"],
   "host_permissions": [
