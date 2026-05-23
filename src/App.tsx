@@ -13,9 +13,12 @@ interface Brand {
 interface Code {
   id: string;
   code: string;
+  link?: string;
   description: string;
   is_verified: boolean;
   user: string;
+  karma?: number;
+  email?: string;
 }
 
 const API_BASE_URL = 'https://codiceamico.app/api/extension';
@@ -28,6 +31,27 @@ function App() {
   const [codes, setCodes] = useState<Code[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [activeTabUrl, setActiveTabUrl] = useState<string>('');
+  const [userProfile, setUserProfile] = useState<{ username: string; karma: number } | null>(null);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/session`, {
+          credentials: 'include'
+        });
+        const data = await response.json();
+        if (data.loggedIn) {
+          setUserProfile({
+            username: data.user.username,
+            karma: data.user.karma
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching session:', error);
+      }
+    };
+    fetchSession();
+  }, []);
   
   // Detect if we are running in an extension or as a website
   const isExtension = typeof window !== 'undefined' && 
@@ -109,14 +133,23 @@ function App() {
         </div>
 
         <div className="header-actions">
-          <button className="add-code-btn" onClick={goToAddCode} title="Aggiungi il tuo codice">
-            <Plus size={13} />
-            <span>Aggiungi</span>
-          </button>
-          <button className="login-btn" onClick={goToLogin} title="Accedi o registrati">
-            <LogIn size={13} />
-            <span>Accedi</span>
-          </button>
+          {userProfile ? (
+            <div className="user-profile-badge" onClick={() => window.open('https://codiceamico.app/dashboard', '_blank')} title="Vai alla tua Dashboard">
+              <span className="user-profile-name">@{getFirstName(userProfile.username)}</span>
+              <span className="user-profile-karma">{userProfile.karma} ⚡</span>
+            </div>
+          ) : (
+            <>
+              <button className="add-code-btn" onClick={goToAddCode} title="Aggiungi il tuo codice">
+                <Plus size={13} />
+                <span>Aggiungi</span>
+              </button>
+              <button className="login-btn" onClick={goToLogin} title="Accedi o registrati">
+                <LogIn size={13} />
+                <span>Accedi</span>
+              </button>
+            </>
+          )}
         </div>
       </header>
 
@@ -178,7 +211,10 @@ function App() {
                 <div key={code.id} className="code-card" style={{ '--delay': `${idx * 60}ms` } as React.CSSProperties}>
                   <div className="code-card-top">
                     <div className="code-meta">
-                      <span className="user-pill">@{getFirstName(code.user)}</span>
+                      <span className="user-pill">
+                        @{getFirstName(code.user)}
+                        {code.karma !== undefined && code.karma > 0 && ` (${code.karma} ⚡)`}
+                      </span>
                       {code.is_verified && (
                         <span className="verified-pill">
                           <ShieldCheck size={9} />
@@ -191,20 +227,46 @@ function App() {
                     )}
                   </div>
                   <div className="code-row">
-                    <div className="code-chip">
-                      <code>{code.code || '—'}</code>
-                    </div>
-                    <button
-                      className={`copy-btn ${copiedId === code.id ? 'copied' : ''}`}
-                      onClick={() => copyToClipboard(code.code, code.id)}
-                      title="Copia codice"
-                    >
-                      {copiedId === code.id ? (
-                        <><Check size={13} /><span>Copiato</span></>
-                      ) : (
-                        <><Copy size={13} /><span>Copia</span></>
-                      )}
-                    </button>
+                    {code.code && (
+                      <>
+                        <div className="code-chip">
+                          <code>{code.code}</code>
+                        </div>
+                        <button
+                          className={`copy-btn ${copiedId === code.id ? 'copied' : ''}`}
+                          onClick={() => copyToClipboard(code.code, code.id)}
+                          title="Copia codice"
+                        >
+                          {copiedId === code.id ? (
+                            <><Check size={13} /><span>Copiato</span></>
+                          ) : (
+                            <><Copy size={13} /><span>Copia</span></>
+                          )}
+                        </button>
+                      </>
+                    )}
+                    
+                    {!code.code && code.link && (
+                      <button
+                        className="copy-btn offer-link-btn"
+                        onClick={() => window.open(code.link, '_blank')}
+                        title="Vai all'offerta"
+                        style={{ width: '100%' }}
+                      >
+                        <ExternalLink size={13} />
+                        <span>Vai all'Offerta</span>
+                      </button>
+                    )}
+
+                    {code.code && code.link && (
+                      <button
+                        className="link-btn"
+                        onClick={() => window.open(code.link, '_blank')}
+                        title="Vai all'offerta"
+                      >
+                        <ExternalLink size={15} />
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
