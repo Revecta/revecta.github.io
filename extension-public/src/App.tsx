@@ -368,9 +368,15 @@ function App() {
       </main>
 
       <footer className="footer">
-        <a href="https://codiceamico.app" target="_blank" rel="noreferrer" className="footer-link">
-          © 2026 CodiceAmico • Fatto con ❤️ dalla community
-        </a>
+        {isExtension ? (
+          <a href="https://codiceamico.app" target="_blank" rel="noreferrer" className="footer-link">
+            codiceamico.app <ExternalLink size={10} />
+          </a>
+        ) : (
+          <a href="https://codiceamico.app" target="_blank" rel="noreferrer" className="footer-link">
+            © 2026 CodiceAmico • Fatto con ❤️ dalla community
+          </a>
+        )}
       </footer>
     </div>
   );

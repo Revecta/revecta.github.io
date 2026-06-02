@@ -446,16 +446,28 @@ body::before {
    EXTENSION COMPONENTS
 ────────────────────────────────────────── */
 .brand-card {
-  padding: 16px;
-  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.035) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .brand-avatar {
-  width: 52px; height: 52px;
-  border-radius: 14px;
+  width: 48px; height: 48px;
+  border-radius: var(--radius-md);
   background: color-mix(in srgb, var(--brand-color) 20%, #000);
   border: 1px solid color-mix(in srgb, var(--brand-color) 40%, transparent);
   position: relative;
@@ -481,34 +493,97 @@ body::before {
 
 .code-card:hover { border-color: var(--border-focus); transform: translateY(-2px); }
 
+.code-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.user-pill {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--txt-muted);
+  background: rgba(255,255,255,0.05);
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.verified-pill {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--emerald);
+  background: rgba(52, 211, 153, 0.08);
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.code-desc {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #9aa0b5;
+  margin-bottom: 12px;
+}
+
 .code-chip {
   flex: 1;
   background: #000;
-  border: 1px dashed var(--border);
-  border-radius: 10px;
-  padding: 12px;
-  display: flex; justify-content: center;
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .code-chip code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--primary);
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
 }
 
 .copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   background: var(--primary);
   color: #fff;
   border: none;
-  padding: 12px 20px;
-  border-radius: 10px;
-  font-weight: 700;
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  box-shadow: 0 4px 12px var(--primary-glow);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px rgba(59,130,246,0.2);
 }
 
-.copy-btn.copied { background: var(--emerald); }
+.copy-btn:hover {
+  background: #2563eb;
+  box-shadow: 0 4px 18px rgba(59,130,246,0.35);
+}
+
+.copy-btn:active { transform: scale(0.94); }
+
+.copy-btn.copied {
+  background: #059669;
+  box-shadow: 0 4px 18px rgba(5,150,105,0.3);
+}
 
 /* ──────────────────────────────────────────
    FOOTER
@@ -520,6 +595,13 @@ body::before {
   text-align: center;
 }
 
+.is-extension .footer {
+  margin-top: 14px;
+  padding: 12px 0 0;
+  display: flex;
+  justify-content: center;
+}
+
 .footer-link {
   font-size: 13px;
   color: var(--txt-dim);
@@ -529,6 +611,16 @@ body::before {
 }
 
 .footer-link:hover { color: var(--txt-muted); }
+
+.is-extension .footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--txt-dim);
+  letter-spacing: 0.01em;
+}
 
 /* ── Chrome Extension Optimizations & Sync ── */
 .code-row {
