@@ -46,8 +46,8 @@ Per caricare l'estensione in Safari, è necessario convertirla in un'app nativa 
 3. Segui le istruzioni per aprire il progetto in Xcode e clicca su **Run**.
 4. In Safari, vai in `Impostazioni > Estensioni` e abilita l'estensione (potrebbe essere necessario attivare il menu "Sviluppo" nelle impostazioni avanzate di Safari).
 
-## Open Source
-Questo progetto è open source per trasparenza e per permettere alla community di contribuire. Le API utilizzate sono quelle pubbliche di [CodiceAmico.app](https://codiceamico.app).
+## Trasparenza e Sicurezza
+Le API utilizzate sono quelle di [CodiceAmico.app](https://codiceamico.app).
 
 ---
-Sviluppato con ❤️ da [CodiceAmico](https://codiceamico.app)
+Sviluppato da [CodiceAmico](https://codiceamico.app)

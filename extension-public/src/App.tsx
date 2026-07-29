@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { 
   Copy, Check, LogIn, Globe, Sparkles, 
-  ShieldCheck, Plus, Code, Star, Terminal, Settings,
-  ArrowRight, Eye, ExternalLink
+  ShieldCheck, Plus, Settings, ArrowRight, ExternalLink
 } from 'lucide-react'
 import './App.css'
 
@@ -76,17 +75,28 @@ function App() {
             const tabs = await extensionRoot.tabs.query({ active: true, currentWindow: true });
             if (tabs[0]?.url) {
               setActiveTabUrl(tabs[0].url);
-              fetchCodes(tabs[0].url);
+              await fetchCodes(tabs[0].url);
               return;
             }
           }
+          setLoading(false);
         } else {
-          document.documentElement.classList.remove('is-extension');
-          document.body.classList.remove('is-extension');
+          const urlParams = new URLSearchParams(window.location.search);
+          if (urlParams.get('demo') === '1' || urlParams.get('url')) {
+            document.documentElement.classList.add('is-extension');
+            document.body.classList.add('is-extension');
+            const targetUrl = urlParams.get('url') || 'https://www.ing.it';
+            setActiveTabUrl(targetUrl);
+            await fetchCodes(targetUrl);
+            return;
+          } else {
+            document.documentElement.classList.remove('is-extension');
+            document.body.classList.remove('is-extension');
+            setLoading(false);
+          }
         }
       } catch (error) {
         console.error('Error querying tabs:', error);
-      } finally {
         setLoading(false);
       }
     };
@@ -101,12 +111,39 @@ function App() {
       if (data.found) {
         setBrand(data.brand);
         setCodes(data.codes);
+        setLoading(false);
+        return;
       }
     } catch (error) {
       console.error('Error fetching codes:', error);
-    } finally {
-      setLoading(false);
     }
+
+    const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+    if (urlParams && (urlParams.get('demo') === '1' || !isExtension)) {
+      setBrand({
+        id: 'ing-demo',
+        name: 'ING',
+        slug: 'ing',
+        color: '#ea580c'
+      });
+      setCodes([
+        {
+          id: 'code-1',
+          code: '9CX64N',
+          description: 'Scegli anche tu ING! Con il mio codice amico 9CX64N puoi ricevere 50 euro di cashback sul Conto Arancio.',
+          is_verified: false,
+          user: 'Michele'
+        },
+        {
+          id: 'code-2',
+          code: '9C6699',
+          description: '‼️50€ + 4% x 12 mesi‼️LINK GUIDA FACILE COME FARE: https://sites.google.com/view/codici-amico-amazon-cashback/ING?utm_source=ponss ==> Telegram: https://web.telegram.org/a/#-1003721528629',
+          is_verified: false,
+          user: 'Emiliano'
+        }
+      ]);
+    }
+    setLoading(false);
   };
 
   const copyToClipboard = (text: string, id: string) => {
@@ -209,9 +246,6 @@ function App() {
                     <h4><Settings size={16} /> Come installare su Safari (macOS)</h4>
                     <ol>
                       <li>
-                        <strong>Scarica:</strong> <a href="https://github.com/Revecta/revecta.github.io/archive/refs/heads/main.zip">Scarica il codice sorgente (.zip)</a> della repository.
-                      </li>
-                      <li>
                         <strong>Developer Mode:</strong> Apri Safari e vai in <em>Impostazioni &gt; Avanzate</em>, abilita "Mostra menu Sviluppo".
                       </li>
                       <li>
@@ -227,29 +261,25 @@ function App() {
             <section className="open-source-section glass-card">
               <div className="os-header">
                 <div className="os-title">
-                  <Code size={24} />
+                  <ShieldCheck size={24} />
                   <div>
-                    <h3>100% Open Source</h3>
-                    <p>Trasparente, sicuro e gratuito per sempre.</p>
+                    <h3>Massima Privacy e Sicurezza</h3>
+                    <p>Trasparente, veloce e gratuito per tutti.</p>
                   </div>
                 </div>
-                <a href="https://github.com/Revecta/revecta.github.io" target="_blank" className="star-btn">
-                  <Star size={16} />
-                  Star su GitHub
-                </a>
               </div>
               <div className="os-grid">
                 <div className="os-item">
-                  <Eye size={18} />
-                  <span>Codice verificabile</span>
-                </div>
-                <div className="os-item">
-                  <Sparkles size={18} />
+                  <ShieldCheck size={18} />
                   <span>Nessun tracciamento</span>
                 </div>
                 <div className="os-item">
-                  <Terminal size={18} />
-                  <span>Contribuibile</span>
+                  <Sparkles size={18} />
+                  <span>100% Gratuito</span>
+                </div>
+                <div className="os-item">
+                  <Globe size={18} />
+                  <span>Sincronizzato in tempo reale</span>
                 </div>
               </div>
             </section>
