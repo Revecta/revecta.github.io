@@ -1,5 +1,7 @@
 node_modules/
 dist/
 submission_mozilla/
+submission_chrome/unpacked/
 *.zip
 .DS_Store
+

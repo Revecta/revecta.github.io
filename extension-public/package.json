@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:chrome": "bash ../prepare_chrome.sh",
+    "build:mozilla": "bash ../prepare_mozilla.sh",
     "lint": "eslint .",
     "preview": "vite preview"
   },

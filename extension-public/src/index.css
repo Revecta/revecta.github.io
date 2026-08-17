@@ -1,24 +1,36 @@
-/* index.css — reset minimo per il popup dell'estensione */
+/* index.css — reset e dimensioni viewport popup */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   margin: 0;
   padding: 0;
   background: #030303;
-}
-
-html.is-extension, 
-body.is-extension {
-  width: 380px;
-  min-width: 380px;
-  overflow-x: hidden;
-}
-
-body {
   color: white;
-  min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Chrome Extension Popup dimensions */
+html.is-extension, 
+body.is-extension {
+  width: 380px !important;
+  min-width: 380px !important;
+  max-width: 380px !important;
+  height: 560px !important;
+  min-height: 560px !important;
+  max-height: 580px !important;
+  overflow: hidden !important;
+}
+
+html.is-extension #root,
+body.is-extension #root {
+  width: 380px !important;
+  height: 560px !important;
+  min-height: 560px !important;
+  max-height: 580px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
 }
 
 #root {
@@ -27,4 +39,3 @@ body {
   display: flex;
   flex-direction: column;
 }
-

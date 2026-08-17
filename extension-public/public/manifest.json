@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "codiceamico.app - trova bonus e sconti",
+  "name": "CodiceAmico - Trova Codici Sconto e Bonus",
+  "short_name": "CodiceAmico",
   "version": "1.0.2",
-  "description": "Trova automaticamente codici referral e bonus per i siti che visiti",
+  "description": "Trova e applica automaticamente i migliori codici sconto e bonus referral verificati mentre navighi.",
   "permissions": ["activeTab"],
   "host_permissions": [
     "*://*.codiceamico.app/*",
@@ -11,6 +12,7 @@
   ],
   "action": {
     "default_popup": "index.html",
+    "default_title": "CodiceAmico - Codici Sconto & Bonus",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
@@ -36,3 +38,4 @@
     }
   }
 }
+
