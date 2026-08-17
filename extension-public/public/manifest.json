@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "CodiceAmico - Trova Codici Sconto e Bonus",
   "short_name": "CodiceAmico",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Trova e applica automaticamente i migliori codici sconto e bonus referral verificati mentre navighi.",
   "permissions": ["activeTab"],
   "host_permissions": [

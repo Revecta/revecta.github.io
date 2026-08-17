@@ -179,7 +179,7 @@ function App() {
           <img src="./icons/icon48.png" alt="CodiceAmico" className="logo-img" />
           <div className="logo-meta">
             <span className="logo-text">Codice<span className="logo-accent">Amico</span></span>
-            {!isExtension && <span className="version-pill">v1.0.2</span>}
+            {!isExtension && <span className="version-pill">v1.0.3</span>}
           </div>
         </div>
 
