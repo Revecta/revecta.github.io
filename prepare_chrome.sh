@@ -43,10 +43,12 @@ rm -rf "$OUTPUT_DIR/unpacked"/*
 cp -R "$PROJECT_DIR/dist"/* "$OUTPUT_DIR/unpacked/"
 
 # 6. Crea il pacchetto ZIP dell'estensione (manifest.json deve stare alla radice del file ZIP)
-echo "📁 Creazione file ZIP per Chrome Web Store (submission_chrome/codiceamico-chrome-extension.zip)..."
+echo "📁 Creazione file ZIP per Chrome Web Store..."
 rm -f "$OUTPUT_DIR/codiceamico-chrome-extension.zip"
+rm -f "./codiceamico-chrome-v1.0.3.zip"
 cd "$PROJECT_DIR/dist"
 zip -r "../../$OUTPUT_DIR/codiceamico-chrome-extension.zip" . -x "*.DS_Store"
+cp "../../$OUTPUT_DIR/codiceamico-chrome-extension.zip" ../../codiceamico-chrome-v1.0.3.zip
 cd ../..
 
 ZIP_SIZE=$(du -h "$OUTPUT_DIR/codiceamico-chrome-extension.zip" | cut -f1)
